@@ -3,18 +3,29 @@
   fxLayout="row"
   fxLayoutAlign="center center"
 >
-  <form [formGroup]="loginForm" (ngSubmit)="login()" fxFlex="30%" fxFlex.sm="50%" fxFlex.xs="90%">
+  <form
+    [formGroup]="loginForm"
+    (ngSubmit)="login()"
+    fxFlex="30%"
+    fxFlex.sm="50%"
+    fxFlex.xs="90%"
+  >
     <mat-card>
       <mat-card-title>Angular Starter</mat-card-title>
       <mat-card-subtitle>Log in to your account</mat-card-subtitle>
       <mat-card-content>
-        <!-- <app-text-input
-          id="email"
-          placeholder="Email"
-          type="email"
-          [control]="loginForm.controls['email']"
-        ></app-text-input> -->
-        <mat-form-field class="full-width">
+        <app-text-input
+          [control]="loginForm.get('email')"
+          [label]="'Email address'"
+          placeholder="Email address"
+        ></app-text-input>
+        <app-text-input
+          [control]="loginForm.get('password')"
+          [label]="'Password'"
+          placeholder="Password"
+          type="password"
+        ></app-text-input>
+        <!-- <mat-form-field class="full-width">
           <input
             id="emailInput"
             matInput
@@ -37,9 +48,9 @@
             Email is
             <strong>required</strong>
           </mat-error>
-        </mat-form-field>
+        </mat-form-field> -->
 
-        <mat-form-field class="full-width">
+        <!-- <mat-form-field class="full-width">
           <input
             id="passwordInput"
             matInput
@@ -55,7 +66,7 @@
             Password is
             <strong>required</strong>
           </mat-error>
-        </mat-form-field>
+        </mat-form-field> -->
 
         <div class="full-width">
           <mat-slide-toggle formControlName="rememberMe"

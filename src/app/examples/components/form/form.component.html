@@ -1,0 +1,79 @@
+<div
+  class="container login-container"
+  fxLayout="row"
+  fxLayoutAlign="center center"
+>
+  <form
+    [formGroup]="newForm"
+    (ngSubmit)="submit()"
+    fxFlex="50%"
+    fxFlex.sm="50%"
+    fxFlex.xs="90%"
+  >
+    <mat-card>
+      <mat-card-title>Forms Example</mat-card-title>
+      <mat-card-subtitle>Please fill this info</mat-card-subtitle>
+      <mat-card-content>
+        <div fxLayout="row">
+          <div fxFlex="45%">
+            <app-text-input
+              [control]="newForm.get('firstName')"
+              label="First Name"
+              placeholder="First Name"
+            ></app-text-input>
+          </div>
+          <div fxFlex="45%">
+            <app-text-input
+              [control]="newForm.get('lastName')"
+              label="Last Name"
+              placeholder="Last Name"
+            ></app-text-input>
+          </div>
+
+        </div>
+        <app-text-input
+              [control]="newForm.get('email')"
+              label="Email"
+              placeholder="Email"
+            ></app-text-input>
+          <app-text-input
+              [control]="newForm.get('dateOfBirth')"
+              label="Date Of Birth"
+              placeholder="Date Of Birth"
+            ></app-text-input>
+          <app-text-input
+              [control]="newForm.get('gender')"
+              label="Gender"
+              placeholder="Gender"
+            ></app-text-input>
+          <app-text-input
+              [control]="newForm.get('password')"
+              label="Password"
+              placeholder="Password"
+            ></app-text-input>
+          <app-text-input
+              [control]="newForm.get('admissionTime')"
+              label="Admission Time"
+              placeholder="Admission Time"
+            ></app-text-input>
+          <app-text-input
+              [control]="newForm.get('termOfPolcy')"
+              label="Term Of Police"
+              placeholder="Term Of Policy"
+            ></app-text-input>
+      </mat-card-content>
+      <mat-card-actions>
+        <button
+          mat-raised-button
+          id="login"
+          color="primary"
+          [disabled]="newForm.invalid || loading"
+          type="submit"
+        >
+          Submit
+        </button>
+      </mat-card-actions>
+    </mat-card>
+    <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+  </form>
+</div>
