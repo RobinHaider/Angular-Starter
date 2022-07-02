@@ -1,1 +1,37 @@
-<p>textarea-input works!</p>
+<mat-form-field class="full-width" appearance="{{ appearance }}">
+  <mat-label>{{ label }}</mat-label>
+  <textarea
+    id="{{ label }}"
+    matInput
+    [placeholder]="placeholder"
+    [formControl]="control"
+  ></textarea>
+
+  <mat-error id="invalidEmailError" *ngIf="control.hasError('email')">
+    Please enter a valid email address
+  </mat-error>
+  <mat-error id="requiredEmailError" *ngIf="control.hasError('required')">
+    {{ label }} is
+    <strong>required</strong>
+  </mat-error>
+  <mat-error class="invalid-feedback" *ngIf="control.errors?.['minlength']">
+    Minimum length
+    {{ control.errors?.['minlength'].requiredLength }}
+  </mat-error>
+  <mat-error class="invalid-feedback" *ngIf="control.errors?.['maxlength']">
+    Maximum length
+    {{ control.errors?.['maxlength'].requiredLength }}
+  </mat-error>
+  <mat-error class="invalid-feedback" *ngIf="control.errors?.['pattern']">
+    Invalid format
+  </mat-error>
+  <mat-error class="invalid-feedback" *ngIf="control.errors?.['email']">
+    Please enter a valid email address
+  </mat-error>
+  <mat-error class="invalid-feedback" *ngIf="control.errors?.['invalidNumber']">
+    Must be number
+  </mat-error>
+  <mat-error class="invalid-feedback" *ngIf="control.errors?.['mustMatch']">
+    Password must match
+  </mat-error>
+</mat-form-field>

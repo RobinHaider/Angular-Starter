@@ -25,9 +25,13 @@ export class FormComponent implements OnInit {
     this.newForm = new FormGroup({
       firstName: new FormControl('', [Validators.required]),
       lastName: new FormControl('', Validators.required),
-      email: new FormControl('', Validators.required),
+      email: new FormControl('', [
+        Validators.required,
+        Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$'),
+      ]),
       dateOfBirth: new FormControl('', Validators.required),
       gender: new FormControl('', Validators.required),
+      description: new FormControl('', Validators.required),
       admissionTime: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required),
       termOfPolcy: new FormControl(false, Validators.required),

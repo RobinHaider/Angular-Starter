@@ -7,11 +7,13 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./text-input.component.scss'],
 })
 export class TextInputComponent implements OnInit {
-  @Input() control!: FormControl ;
-  @Input() label: string  = '';
-  @Input() placeholder: string  = '';
+  @Input() control!: FormControl;
+  @Input() label: string = '';
+  @Input() placeholder: string = this.label;
 
   @Input() type = 'text';
+
+  @Input() appearance = 'fill';
 
   constructor() {}
 
