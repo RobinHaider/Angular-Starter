@@ -1,15 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-date-input',
   templateUrl: './date-input.component.html',
-  styleUrls: ['./date-input.component.scss']
+  styleUrls: ['./date-input.component.scss'],
 })
 export class DateInputComponent implements OnInit {
+  @Input() control!: FormControl;
+  @Input() label: string = '';
+  @Input() placeholder: string = this.label;
 
-  constructor() { }
+  @Input() type = 'text';
 
-  ngOnInit(): void {
-  }
+  @Input() appearance = 'fill';
 
+  constructor() {}
+
+  ngOnInit(): void {}
 }

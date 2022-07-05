@@ -10,6 +10,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatRadioModule } from '@angular/material/radio';
 
 @NgModule({
   declarations: [],
@@ -26,6 +29,9 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatProgressBarModule,
     MatInputModule,
     MatSlideToggleModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatRadioModule,
   ],
 })
 export class MaterialModule {}

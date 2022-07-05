@@ -1,1 +1,12 @@
-<p>radio-input works!</p>
+
+  <mat-label>{{ label }}</mat-label>
+  <mat-radio-group [formControl]="control"  aria-label="Select an option">
+    <mat-radio-button *ngFor="let option of options" [value]="option.value">{{
+      option.label
+    }}</mat-radio-button>
+  </mat-radio-group>
+
+  <mat-error id="requiredEmailError" *ngIf="control.hasError('required')">
+    {{ label }} is
+    <strong>required</strong>
+  </mat-error>

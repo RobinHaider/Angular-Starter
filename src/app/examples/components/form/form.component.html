@@ -41,16 +41,16 @@
               label="Description"
               placeholder="Description"
             ></app-textarea-input>
-          <app-text-input
+          <app-date-input
               [control]="newForm.get('dateOfBirth')"
               label="Date Of Birth"
               placeholder="Date Of Birth"
-            ></app-text-input>
-          <app-text-input
+            ></app-date-input>
+          <app-radio-input
               [control]="newForm.get('gender')"
               label="Gender"
-              placeholder="Gender"
-            ></app-text-input>
+              [options]="genderOptions"
+            ></app-radio-input>
           <app-text-input
               [control]="newForm.get('password')"
               label="Password"

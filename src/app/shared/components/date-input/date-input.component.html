@@ -1,1 +1,25 @@
-<p>date-input works!</p>
+<mat-form-field class="full-width" [appearance]="appearance">
+  <mat-label>{{label}}</mat-label>
+  <input
+    id="{{ label }}"
+    matInput
+    [placeholder]="placeholder"
+    [formControl]="control"
+    [matDatepicker]="picker"
+  />
+   <mat-hint>MM/DD/YYYY</mat-hint>
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+
+
+  <mat-error id="requiredEmailError" *ngIf="control.hasError('required')">
+    {{ label }} is
+    <strong>required</strong>
+  </mat-error>
+
+
+
+
+
+
+</mat-form-field>
