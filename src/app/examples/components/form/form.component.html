@@ -29,43 +29,46 @@
               placeholder="Last Name"
             ></app-text-input>
           </div>
-
         </div>
         <app-text-input
-              [control]="newForm.get('email')"
-              label="Email"
-              placeholder="Email"
-            ></app-text-input>
+          [control]="newForm.get('email')"
+          label="Email"
+          placeholder="Email"
+        ></app-text-input>
         <app-textarea-input
-              [control]="newForm.get('description')"
-              label="Description"
-              placeholder="Description"
-            ></app-textarea-input>
-          <app-date-input
-              [control]="newForm.get('dateOfBirth')"
-              label="Date Of Birth"
-              placeholder="Date Of Birth"
-            ></app-date-input>
+          [control]="newForm.get('description')"
+          label="Description"
+          placeholder="Description"
+        ></app-textarea-input>
+        <app-date-input
+          [control]="newForm.get('dateOfBirth')"
+          label="Date Of Birth"
+          placeholder="Date Of Birth"
+        ></app-date-input>
+        <div class="mt-4">
           <app-radio-input
-              [control]="newForm.get('gender')"
-              label="Gender"
-              [options]="genderOptions"
-            ></app-radio-input>
-          <app-text-input
-              [control]="newForm.get('password')"
-              label="Password"
-              placeholder="Password"
-            ></app-text-input>
-          <app-text-input
-              [control]="newForm.get('admissionTime')"
-              label="Admission Time"
-              placeholder="Admission Time"
-            ></app-text-input>
-          <app-text-input
-              [control]="newForm.get('termOfPolcy')"
-              label="Term Of Police"
-              placeholder="Term Of Policy"
-            ></app-text-input>
+            [control]="newForm.get('gender')"
+            label="Gender"
+            [options]="genderOptions"
+          ></app-radio-input>
+        </div>
+
+        <app-text-input
+          [control]="newForm.get('password')"
+          label="Password"
+          placeholder="Password"
+          type="password"
+        ></app-text-input>
+
+        <app-time-input
+         label="Select Time"
+          [control]="newForm.get('admissionTime')"
+        ></app-time-input>
+        <app-text-input
+          [control]="newForm.get('termOfPolcy')"
+          label="Term Of Police"
+          placeholder="Term Of Policy"
+        ></app-text-input>
       </mat-card-content>
       <mat-card-actions>
         <button
