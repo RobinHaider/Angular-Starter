@@ -14,15 +14,15 @@
       <mat-card-title>Forms Example</mat-card-title>
       <mat-card-subtitle>Please fill this info</mat-card-subtitle>
       <mat-card-content>
-        <div fxLayout="row">
-          <div fxFlex="45%">
+        <div class="grid grid-cols-2 gap-4">
+          <div >
             <app-text-input
               [control]="newForm.get('firstName')"
               label="First Name"
               placeholder="First Name"
             ></app-text-input>
           </div>
-          <div fxFlex="45%">
+          <div>
             <app-text-input
               [control]="newForm.get('lastName')"
               label="Last Name"
@@ -64,18 +64,17 @@
          label="Select Time"
           [control]="newForm.get('admissionTime')"
         ></app-time-input>
-        <app-text-input
+        <app-checkbox-input
           [control]="newForm.get('termOfPolcy')"
           label="Term Of Police"
-          placeholder="Term Of Policy"
-        ></app-text-input>
+        ></app-checkbox-input>
       </mat-card-content>
       <mat-card-actions>
         <button
+          class="w-full h-10"
           mat-raised-button
           id="login"
           color="primary"
-          [disabled]="newForm.invalid || loading"
           type="submit"
         >
           Submit
