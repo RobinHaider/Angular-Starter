@@ -1,1 +1,67 @@
-<p>signup works!</p>
+<div
+  class="container login-container"
+  fxLayout="row"
+  fxLayoutAlign="center center"
+>
+  <form
+    [formGroup]="signupForm"
+    (ngSubmit)="signup()"
+    fxFlex="30%"
+    fxFlex.sm="50%"
+    fxFlex.xs="90%"
+  >
+    <mat-card>
+      <mat-card-title>Angular Starter</mat-card-title>
+      <mat-card-subtitle>Create a new account</mat-card-subtitle>
+      <mat-card-content>
+         <div class="grid grid-cols-2 gap-4">
+          <div >
+            <app-text-input
+              [control]="signupForm.get('firstName')"
+              label="First Name"
+              placeholder="First Name"
+            ></app-text-input>
+          </div>
+          <div>
+            <app-text-input
+              [control]="signupForm.get('lastName')"
+              label="Last Name"
+              placeholder="Last Name"
+            ></app-text-input>
+          </div>
+        </div>
+        <app-text-input
+          [control]="signupForm.get('email')"
+          [label]="'Email address'"
+          placeholder="Email address"
+        ></app-text-input>
+        <app-text-input
+          [control]="signupForm.get('password')"
+          [label]="'Password'"
+          placeholder="Password"
+          type="password"
+        ></app-text-input>
+
+
+
+
+
+      </mat-card-content>
+
+      <mat-card-actions class="login-actions">
+        <button
+          mat-raised-button
+          id="login"
+          color="primary"
+          [disabled]="signupForm.invalid || loading"
+          type="submit"
+        >
+          SignUp
+        </button>
+        <button routerLink="/auth/login" mat-button id="resetPassword" type="button">Login</button>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+  </form>
+</div>
