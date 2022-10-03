@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -10,16 +12,26 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   loading = false;
+  returnUrl = '/';
   constructor(
-    private router: Router
+    private router: Router,
+    private authService: AuthService,
+    private toastService: ToastrService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
     this.createForm();
+    // `this.route.queryParams.subscribe(
+    //   (params) => (this.returnUrl = params['returnUrl'] || '/')
+    // );`
   }
-  login(){
+  login() {
     this.loading = true;
-    this.router.navigate(['/']);
+    this.authService.login(this.loginForm.value).subscribe((response) => {
+      this.toastService.success('Login Successfully');
+      this.router.navigateByUrl(this.returnUrl);
+    });
   }
   private createForm() {
     const savedUserEmail = localStorage.getItem('savedUserEmail');
