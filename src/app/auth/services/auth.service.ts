@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { map, ReplaySubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Login } from '../models/login';
+import { Login, RegisterDto } from '../models/login';
 import { User } from '../models/user';
 
 @Injectable({
@@ -58,6 +58,10 @@ export class AuthService {
         }
       })
     );
+  }
+
+  register(values: RegisterDto) {
+    return this.http.post(this.baseUrl + 'register', values);
   }
 
   logout() {

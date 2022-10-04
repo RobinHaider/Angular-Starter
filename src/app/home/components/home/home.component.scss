@@ -44,7 +44,7 @@
 mat-sidenav {
   min-width: 180px !important;
   border-right: 1px solid #eee;
-  box-shadow: 6px 0 6px rgba(0, 0, 0, .1);
+  box-shadow: 6px 0 6px rgba(0, 0, 0, 0.1);
   /* background-color:rgb(63, 81, 181); */
 }
 
@@ -55,7 +55,7 @@ mat-sidenav {
 }
 
 a.mat-list-item.active {
-  background: rgba(0, 0, 0, .04);
+  background: rgba(0, 0, 0, 0.04);
 }
 
 #push-bottom {

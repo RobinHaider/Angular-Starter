@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -28,10 +29,17 @@ export class LoginComponent implements OnInit {
   }
   login() {
     this.loading = true;
-    this.authService.login(this.loginForm.value).subscribe((response) => {
-      this.toastService.success('Login Successfully');
-      this.router.navigateByUrl(this.returnUrl);
-    });
+    this.authService.login(this.loginForm.value).subscribe(
+      (response) => {
+        this.toastService.success('Login Successfully');
+        this.router.navigateByUrl(this.returnUrl);
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error);
+        this.toastService.error(error.error);
+        this.loading = false;
+      }
+    );
   }
   private createForm() {
     const savedUserEmail = localStorage.getItem('savedUserEmail');
