@@ -36,4 +36,8 @@ export class HomeComponent implements OnInit {
   ngAfterViewInit(): void {
     this.changeDetectorRef.detectChanges();
   }
+
+  logout() {
+    this.authService.logout();
+  }
 }

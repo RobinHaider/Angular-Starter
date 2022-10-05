@@ -33,6 +33,8 @@ export class LoginComponent implements OnInit {
       (response) => {
         this.toastService.success('Login Successfully');
         this.router.navigateByUrl(this.returnUrl);
+        this.loading = false;
+        this.loginForm.reset({});
       },
       (error: HttpErrorResponse) => {
         console.log(error);
