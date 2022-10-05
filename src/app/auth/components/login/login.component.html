@@ -86,8 +86,39 @@
           Login
         </button>
 
-        <a routerLink="/auth/signup" mat-button id="signupBtn" type="button">Create new account</a>
+        <a routerLink="/auth/signup" mat-button id="signupBtn" type="button"
+          >Create new account</a
+        >
       </mat-card-actions>
+      <div fxLayout="column" fxLayoutAlign="center center">
+        <button
+          (click)="loginAsAdmin()"
+          class="login-as-btn"
+          mat-raised-button
+          color="primary"
+          type="button"
+        >
+          Login as Admin
+        </button>
+        <button
+          (click)="loginAsSuperAdmin()"
+          class="login-as-btn"
+          mat-raised-button
+          color="accent"
+          type="button"
+        >
+          Login As SuperAdmin
+        </button>
+        <button
+          (click)="loginAsCustomer()"
+          class="login-as-btn"
+          mat-raised-button
+          color="primary"
+          type="button"
+        >
+          Login As Customer
+        </button>
+      </div>
     </mat-card>
 
     <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>

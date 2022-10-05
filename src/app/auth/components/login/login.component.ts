@@ -43,6 +43,7 @@ export class LoginComponent implements OnInit {
       }
     );
   }
+
   private createForm() {
     const savedUserEmail = localStorage.getItem('savedUserEmail');
 
@@ -54,5 +55,28 @@ export class LoginComponent implements OnInit {
       password: new FormControl('', Validators.required),
       rememberMe: new FormControl(savedUserEmail !== null),
     });
+  }
+
+  loginAsAdmin() {
+    this.loginForm.controls['email'].setValue('admin@gmail.com');
+    this.loginForm.controls['password'].setValue('Admin1$');
+    this.login();
+  }
+
+  loginAsSuperAdmin() {
+    this.loginForm.controls['email'].setValue('superadmin@gmail.com');
+    this.loginForm.controls['password'].setValue('Superadmin1$');
+    this.login();
+  }
+
+  // loginAsAdminUser() {
+  //   this.loginForm.controls['email'].setValue('admin@gmail.com');
+  //   this.loginForm.controls['password'].setValue('Admin1$');
+  //   this.login();
+  // }
+  loginAsCustomer() {
+    this.loginForm.controls['email'].setValue('customer@gmail.com');
+    this.loginForm.controls['password'].setValue('Customer1$');
+    this.login();
   }
 }
