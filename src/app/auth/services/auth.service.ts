@@ -69,6 +69,20 @@ export class AuthService {
     this.router.navigateByUrl('/auth/login');
   }
 
+  refreshToken() {
+    return this.http
+      .post<User>(this.baseUrl + 'refreshToken', {}, { withCredentials: true })
+      .pipe(
+        map((user: User) => {
+          if (user) {
+            localStorage.setItem(this.storageName, JSON.stringify(user));
+            this.currentUserSource.next(user);
+            this.userRoles = user.roles;
+          }
+        })
+      );
+  }
+
   //For Checking Roles
   roleMatch(allowedRoles: string[]): boolean {
     let isMatch = false;

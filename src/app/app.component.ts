@@ -11,5 +11,8 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.loadCurrentUser();
+    // this.authService.refreshToken().subscribe((res) => {
+    //   console.log(res);
+    // });
   }
 }
