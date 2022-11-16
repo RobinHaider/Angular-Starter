@@ -10,6 +10,11 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: { roles: ['admin'] },
   },
+  {
+    path: 'activities',
+    loadChildren: () =>
+      import('./activities/activities.module').then((m) => m.ActivitiesModule),
+  },
 ];
 
 @NgModule({

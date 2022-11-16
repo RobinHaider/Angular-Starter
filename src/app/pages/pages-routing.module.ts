@@ -5,12 +5,14 @@ const routes: Routes = [
   {
     path: 'generate-code',
     loadChildren: () =>
-      import('./generate-code/generate-code.module').then((m) => m.GenerateCodeModule),
+      import('./generate-code/generate-code.module').then(
+        (m) => m.GenerateCodeModule
+      ),
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class PagesRoutingModule { }
+export class PagesRoutingModule {}

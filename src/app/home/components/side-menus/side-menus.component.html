@@ -1,0 +1,56 @@
+<mat-nav-list>
+  <h3 mat-subheader>Home</h3>
+  <!-- Dashboard -->
+  <a mat-list-item [routerLink]="['/dashboard']" routerLinkActive="active">
+    <mat-icon mat-list-icon> dashboard </mat-icon>
+    <p mat-line>Dashboard</p>
+  </a>
+  <!-- Examples -->
+  <mat-expansion-panel hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <mat-icon class="mr-4" mat-list-icon> dashboard </mat-icon>
+        Examples
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <!-- Forms -->
+    <a
+      mat-list-item
+      [routerLink]="['/examples/forms']"
+      routerLinkActive="active"
+    >
+      <p mat-line>Froms</p>
+    </a>
+    <!-- Activities -->
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title> Activity </mat-panel-title>
+      </mat-expansion-panel-header>
+      <a
+        mat-list-item
+        [routerLink]="['/examples/activities']"
+        routerLinkActive="active"
+      >
+        <p mat-line>List</p>
+      </a>
+      <a
+        mat-list-item
+        [routerLink]="['/examples/activities/create']"
+        routerLinkActive="active"
+      >
+        <p mat-line>Create</p>
+      </a>
+    </mat-expansion-panel>
+  </mat-expansion-panel>
+
+  <h3 mat-subheader>Resources</h3>
+
+  <a
+    mat-list-item
+    href="https://material.angular.io/components/categories"
+    target="_blank"
+  >
+    <mat-icon mat-list-icon> link </mat-icon>
+    <p mat-line>Material Components</p>
+  </a>
+</mat-nav-list>
