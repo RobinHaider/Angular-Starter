@@ -16,6 +16,9 @@ import { MatRadioModule } from '@angular/material/radio';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [],
@@ -38,6 +41,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
     NgxMaterialTimepickerModule,
     MatCheckboxModule,
     MatExpansionModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
   ],
 })
 export class MaterialModule {}

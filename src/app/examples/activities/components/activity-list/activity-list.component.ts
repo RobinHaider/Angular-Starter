@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { catchError, merge, startWith, switchMap, of, map } from 'rxjs';
 import { Pagination } from 'src/app/core/models/pagination';
 import { ActivityDto, ActivityParams } from '../../models/activity';
 import { ActivityService } from '../../services/activity.service';
@@ -8,18 +10,64 @@ import { ActivityService } from '../../services/activity.service';
   templateUrl: './activity-list.component.html',
   styleUrls: ['./activity-list.component.scss'],
 })
-export class ActivityListComponent implements OnInit {
+export class ActivityListComponent implements OnInit, AfterViewInit {
   defaultParams = new ActivityParams();
-  pagination!: Pagination;
+  pagination: Pagination = {} as Pagination;
   activities: ActivityDto[] = [];
+  displayedColumns: string[] = [
+    'position',
+    'title',
+    'category',
+    'date',
+    'city',
+    'venue',
+  ];
+  isLoadingResults = true;
+
+  @ViewChild(MatPaginator)
+  paginator!: MatPaginator;
 
   constructor(private activityService: ActivityService) {}
 
-  ngOnInit(): void {
-    this.activityService.list(this.defaultParams).subscribe((response) => {
-      console.log(response);
-      this.activities = response.data;
-      this.pagination = response.pagination;
-    });
+  ngAfterViewInit() {
+    // If the user changes the sort order, reset back to the first page.
+    // this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+
+    merge(this.paginator.page)
+      .pipe(
+        startWith({}),
+        switchMap(() => {
+          this.isLoadingResults = true;
+          this.defaultParams.pageNumber = this.paginator.pageIndex + 1;
+          this.defaultParams.pageSize = this.paginator.pageSize;
+
+          return this.activityService
+            .list(this.defaultParams)
+            .pipe(catchError(() => of(null)));
+        }),
+        map((result) => {
+          // Flip flag to show that loading has finished.
+
+          if (result === null) {
+            return [];
+          }
+
+          // Only refresh the result length if there is new data. In case of rate
+          // limit errors, we do not want to reset the paginator to zero, as that
+          // would prevent users from re-triggering requests.
+          this.pagination = result.pagination;
+
+          return result.data;
+        })
+      )
+      .subscribe((data) => {
+        // delete timeout
+        setTimeout(() => {
+          this.isLoadingResults = false;
+          this.activities = data;
+        }, 1000);
+      });
   }
+
+  ngOnInit(): void {}
 }
