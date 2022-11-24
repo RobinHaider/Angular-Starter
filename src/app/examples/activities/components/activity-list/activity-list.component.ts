@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, merge, startWith, switchMap, of, map } from 'rxjs';
 import { Pagination } from 'src/app/core/models/pagination';
 import { ActivityDto, ActivityParams } from '../../models/activity';
@@ -22,6 +23,8 @@ export class ActivityListComponent implements OnInit, AfterViewInit {
     'date',
     'city',
     'venue',
+    'actions',
+    'delete',
   ];
   isLoadingResults = true;
   pageSizeOptions = [2, 4, 6];
@@ -30,7 +33,11 @@ export class ActivityListComponent implements OnInit, AfterViewInit {
   paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private activityService: ActivityService) {}
+  constructor(
+    private activityService: ActivityService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngAfterViewInit() {
     // If the user changes the sort order, reset back to the first page.
@@ -82,5 +89,10 @@ export class ActivityListComponent implements OnInit, AfterViewInit {
         return result.data;
       })
     );
+  }
+
+  onRowClicked(id: string) {
+    console.log('row clicked', id);
+    this.router.navigate(['details', id], { relativeTo: this.route });
   }
 }

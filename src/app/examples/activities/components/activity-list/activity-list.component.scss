@@ -36,3 +36,20 @@ th.mat-sort-header-sorted {
   font-size: 20px;
   width: 100%;
 }
+
+.mat-row:hover {
+  // border-bottom: 1px solid currentColor;
+  // border-top: 1px solid currentColor;
+  border-top: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  cursor: pointer;
+}
+
+.mat-row:hover .mat-cell {
+  // border: 1px 1px solid;
+  // border-color: currentColor;
+}
+
+.demo-row-is-clicked {
+  font-weight: bold;
+}
