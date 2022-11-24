@@ -28,6 +28,19 @@ export class ActivityService {
       params = params.append('pageSize', activityParams.pageSize.toString());
     }
 
+    // sort
+    if (activityParams.sortBy) {
+      params = params.append('sortBy', activityParams.sortBy);
+    }
+    if (activityParams.sortDirection) {
+      params = params.append('sortDirection', activityParams.sortDirection);
+    }
+
+    // search
+    if (activityParams.search) {
+      params = params.append('search', activityParams.search);
+    }
+
     return getPaginatedResult<ActivityDto>(
       `${this.baseUrl}`,
       params,
