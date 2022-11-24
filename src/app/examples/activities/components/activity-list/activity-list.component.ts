@@ -40,39 +40,47 @@ export class ActivityListComponent implements OnInit, AfterViewInit {
       .pipe(
         startWith({}),
         switchMap(() => {
-          this.isLoadingResults = true;
           this.defaultParams.pageNumber = this.paginator.pageIndex + 1;
           this.defaultParams.pageSize = this.paginator.pageSize;
           this.defaultParams.sortBy = this.sort.active;
           this.defaultParams.sortDirection = this.sort.direction;
+          console.log('Called');
 
-          return this.activityService
-            .list(this.defaultParams)
-            .pipe(catchError(() => of(null)));
-        }),
-        map((result) => {
-          // Flip flag to show that loading has finished.
-
-          if (result === null) {
-            return [];
-          }
-
-          // Only refresh the result length if there is new data. In case of rate
-          // limit errors, we do not want to reset the paginator to zero, as that
-          // would prevent users from re-triggering requests.
-          this.pagination = result.pagination;
-
-          return result.data;
+          return this.loadData();
         })
       )
-      .subscribe((data) => {
-        // delete timeout
-        setTimeout(() => {
-          this.isLoadingResults = false;
-          this.activities = data;
-        }, 1000);
-      });
+      .subscribe();
   }
 
   ngOnInit(): void {}
+
+  applyFilter(event: Event) {
+    const searchValue = (event.target as HTMLInputElement).value;
+    console.log(searchValue.trim().toLowerCase());
+    this.defaultParams.search = searchValue.trim().toLocaleLowerCase();
+    this.loadData().subscribe();
+  }
+
+  loadData() {
+    this.isLoadingResults = true;
+    return this.activityService.list(this.defaultParams).pipe(
+      catchError(() => of(null)),
+      map((result) => {
+        if (result === null) {
+          return [];
+        }
+
+        // Only refresh the result length if there is new data. In case of rate
+        // limit errors, we do not want to reset the paginator to zero, as that
+        // would prevent users from re-triggering requests.
+        this.pagination = result.pagination;
+        setTimeout(() => {
+          this.isLoadingResults = false;
+          this.activities = result.data;
+        }, 1000);
+
+        return result.data;
+      })
+    );
+  }
 }
