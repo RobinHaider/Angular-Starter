@@ -1,1 +1,72 @@
-<p>create-activity works!</p>
+<div
+  class="container login-container"
+  fxLayout="row"
+  fxLayoutAlign="center center"
+>
+  <form
+    [formGroup]="newForm"
+    (ngSubmit)="submit()"
+    fxFlex="50%"
+    fxFlex.sm="50%"
+    fxFlex.xs="90%"
+  >
+    <mat-card>
+      <mat-card-title>Create Activity</mat-card-title>
+      <mat-card-subtitle>Please fill this info</mat-card-subtitle>
+      <mat-card-content>
+        <app-text-input
+          [control]="newForm.get('title')"
+          label="Title"
+          placeholder="Title"
+        ></app-text-input>
+
+        <app-textarea-input
+          [control]="newForm.get('description')"
+          label="Description"
+          placeholder="Description"
+        ></app-textarea-input>
+        <app-text-input
+          [control]="newForm.get('category')"
+          label="Category"
+          placeholder="Category"
+        ></app-text-input>
+
+        <app-date-input
+          [control]="newForm.get('date')"
+          label="Date"
+          placeholder="Date"
+        ></app-date-input>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <app-text-input
+              [control]="newForm.get('city')"
+              label="City"
+              placeholder="City"
+            ></app-text-input>
+          </div>
+          <div>
+            <app-text-input
+              [control]="newForm.get('venue')"
+              label="Venue"
+              placeholder="Venue"
+            ></app-text-input>
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <button
+          [disabled]="newForm.invalid || loading || !newForm.dirty"
+          class="w-full h-10"
+          mat-raised-button
+          id="login"
+          color="primary"
+          type="submit"
+        >
+          Submit
+        </button>
+      </mat-card-actions>
+    </mat-card>
+    <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+  </form>
+</div>

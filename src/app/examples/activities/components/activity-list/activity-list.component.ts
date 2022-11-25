@@ -81,6 +81,7 @@ export class ActivityListComponent implements OnInit, AfterViewInit {
         // limit errors, we do not want to reset the paginator to zero, as that
         // would prevent users from re-triggering requests.
         this.pagination = result.pagination;
+        // delete timeout
         setTimeout(() => {
           this.isLoadingResults = false;
           this.activities = result.data;
