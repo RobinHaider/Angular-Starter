@@ -7,6 +7,7 @@ import {
   FormGroupDirective,
   Validators,
 } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { catchError, finalize, retry, throwError } from 'rxjs';
 import { ActivityService } from '../../services/activity.service';
 
@@ -23,6 +24,7 @@ export class CreateActivityComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private toastService: ToastrService,
     private activityService: ActivityService
   ) {}
 
@@ -52,6 +54,7 @@ export class CreateActivityComponent implements OnInit {
         next: (response) => {
           console.log('response', response);
           this.formDirective.resetForm();
+          this.toastService.success('Created Successfully');
         },
         error: (error: HttpErrorResponse) => {
           console.log('error', error);
