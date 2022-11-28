@@ -7,6 +7,7 @@ import { CreateActivityComponent } from './components/create-activity/create-act
 import { UpdateActivityComponent } from './components/update-activity/update-activity.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ActivityDetailsComponent } from './components/activity-details/activity-details.component';
+import { DeleteConfirmationDialogComponent } from './components/delete-confirmation-dialog/delete-confirmation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { ActivityDetailsComponent } from './components/activity-details/activity
     CreateActivityComponent,
     UpdateActivityComponent,
     ActivityDetailsComponent,
+    DeleteConfirmationDialogComponent,
   ],
   imports: [CommonModule, ActivitiesRoutingModule, SharedModule],
 })

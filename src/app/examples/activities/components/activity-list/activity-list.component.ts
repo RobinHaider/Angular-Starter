@@ -1,11 +1,23 @@
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, merge, startWith, switchMap, of, map } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import {
+  catchError,
+  merge,
+  startWith,
+  switchMap,
+  of,
+  map,
+  retry,
+  finalize,
+} from 'rxjs';
 import { Pagination } from 'src/app/core/models/pagination';
 import { ActivityDto, ActivityParams } from '../../models/activity';
 import { ActivityService } from '../../services/activity.service';
+import { DeleteConfirmationDialogComponent } from '../delete-confirmation-dialog/delete-confirmation-dialog.component';
 
 @Component({
   selector: 'app-activity-list',
@@ -36,7 +48,9 @@ export class ActivityListComponent implements OnInit, AfterViewInit {
   constructor(
     private activityService: ActivityService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toastService: ToastrService,
+    private dialog: MatDialog
   ) {}
 
   ngAfterViewInit() {
@@ -95,5 +109,52 @@ export class ActivityListComponent implements OnInit, AfterViewInit {
   onRowClicked(id: string) {
     console.log('row clicked', id);
     this.router.navigate(['details', id], { relativeTo: this.route });
+  }
+
+  openDialog(id: string) {
+    const dialogRef = this.dialog.open(DeleteConfirmationDialogComponent, {
+      data: {
+        message: 'Are you sure want to delete?',
+        buttonText: {
+          ok: 'Yes',
+          cancel: 'No',
+        },
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        console.log('confirmed', id);
+        this.isLoadingResults = true;
+        this.activityService
+          .delete(id)
+          .pipe(
+            retry(2),
+            finalize(() => {
+              this.isLoadingResults = false;
+            })
+          )
+          .subscribe({
+            // on success
+            next: (response) => {
+              console.log('response', response);
+              this.toastService.success(
+                'Deleted Successfully',
+                this.activities.find((a) => a.id == id)?.title
+              );
+              // reload data
+              this.loadData().subscribe();
+            },
+            error: (error) => {
+              console.log('error', error);
+            },
+            complete: () => {
+              console.log('Completed');
+            },
+          });
+      } else {
+        console.log('not-confirmed');
+      }
+    });
   }
 }
