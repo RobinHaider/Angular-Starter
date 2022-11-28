@@ -64,7 +64,9 @@
       >
         Update
       </button>
-      <button mat-raised-button color="warn">Delete</button>
+      <button (click)="openDialog(activity.id)" mat-raised-button color="warn">
+        Delete
+      </button>
     </mat-card-actions>
   </mat-card>
 </section>

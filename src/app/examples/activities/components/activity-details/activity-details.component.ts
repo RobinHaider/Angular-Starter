@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { retry } from 'rxjs';
 import { Activity } from '../../models/activity';
 import { ActivityService } from '../../services/activity.service';
+import { DeleteConfirmationDialogComponent } from '../delete-confirmation-dialog/delete-confirmation-dialog.component';
 
 @Component({
   selector: 'app-activity-details',
@@ -16,7 +19,9 @@ export class ActivityDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private activityService: ActivityService
+    private activityService: ActivityService,
+    private toastService: ToastrService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -43,5 +48,43 @@ export class ActivityDetailsComponent implements OnInit {
         error: (error) => {},
         complete: () => {},
       });
+  }
+
+  openDialog(id: string) {
+    const dialogRef = this.dialog.open(DeleteConfirmationDialogComponent, {
+      data: {
+        message: 'Are you sure want to delete?',
+        buttonText: {
+          ok: 'Yes',
+          cancel: 'No',
+        },
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        console.log('confirmed', id);
+        this.activityService
+          .delete(id)
+          .pipe(retry(2))
+          .subscribe({
+            // on success
+            next: (response) => {
+              console.log('response', response);
+              this.toastService.success('Deleted Successfully');
+              // go to list
+              this.router.navigate(['../..'], { relativeTo: this.route });
+            },
+            error: (error) => {
+              console.log('error', error);
+            },
+            complete: () => {
+              console.log('Completed');
+            },
+          });
+      } else {
+        console.log('not-confirmed');
+      }
+    });
   }
 }
