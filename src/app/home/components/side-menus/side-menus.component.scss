@@ -3,3 +3,9 @@
   -moz-box-shadow: none !important;
   box-shadow: none !important;
 }
+
+.mat-expansion-indicator,
+::before,
+::after {
+  border-color: black !important;
+}
