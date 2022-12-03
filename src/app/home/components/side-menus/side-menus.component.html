@@ -1,9 +1,10 @@
 <mat-nav-list>
-  <h3 mat-subheader>Home</h3>
   <!-- Dashboard -->
   <a mat-list-item [routerLink]="['/dashboard']" routerLinkActive="active">
-    <mat-icon mat-list-icon> dashboard </mat-icon>
-    <p mat-line>Dashboard</p>
+    <mat-panel-title>
+      <mat-icon class="mr-4" mat-list-icon> dashboard </mat-icon>
+      <span>Dashboard</span>
+    </mat-panel-title>
   </a>
   <!-- Examples -->
   <mat-expansion-panel>
@@ -43,6 +44,7 @@
     </mat-expansion-panel>
   </mat-expansion-panel>
 
+  <mat-divider class="pb-3"></mat-divider>
   <h3 mat-subheader>Resources</h3>
 
   <a
@@ -50,7 +52,9 @@
     href="https://material.angular.io/components/categories"
     target="_blank"
   >
-    <mat-icon mat-list-icon> link </mat-icon>
-    <p mat-line>Material Components</p>
+    <mat-panel-title>
+      <mat-icon class="mr-4" mat-list-icon> link </mat-icon>
+      <span>Material Components</span>
+    </mat-panel-title>
   </a>
 </mat-nav-list>
