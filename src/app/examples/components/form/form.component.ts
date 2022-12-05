@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from 'src/app/auth/services/auth.service';
 import { RadioOption } from 'src/app/shared/components/radio-input/radio-input.component';
 
 @Component({
@@ -10,15 +11,18 @@ import { RadioOption } from 'src/app/shared/components/radio-input/radio-input.c
 export class FormComponent implements OnInit {
   newForm!: FormGroup;
   loading = false;
-  genderOptions : RadioOption[] = [
-    {value: "male", label: "Male"},
-    {value: "female", label: "Female"}
-  ]
+  genderOptions: RadioOption[] = [
+    { value: 'male', label: 'Male' },
+    { value: 'female', label: 'Female' },
+  ];
 
-  constructor() {}
+  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
     this.createForm();
+    this.authService.refreshToken().subscribe((response) => {
+      console.log(response);
+    });
   }
 
   submit() {

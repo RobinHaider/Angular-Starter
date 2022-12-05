@@ -107,6 +107,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     );
   }
 
+  // if want to show validation error on toast
   private constructBadRequestErrors(
     exception: HttpErrorResponse,
     errorMessage: string
