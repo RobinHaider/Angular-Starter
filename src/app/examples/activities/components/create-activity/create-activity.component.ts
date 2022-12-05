@@ -21,6 +21,7 @@ export class CreateActivityComponent implements OnInit {
   formDirective!: FormGroupDirective;
   newForm!: FormGroup;
   loading = false;
+  apiValidationErrors: string[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -38,7 +39,6 @@ export class CreateActivityComponent implements OnInit {
     this.activityService
       .create(this.newForm.value)
       .pipe(
-        retry(2),
         finalize(() => {
           this.loading = false;
           console.log('finalize');
@@ -56,8 +56,9 @@ export class CreateActivityComponent implements OnInit {
           this.formDirective.resetForm();
           this.toastService.success('Created Successfully');
         },
-        error: (error: HttpErrorResponse) => {
+        error: (error) => {
           console.log('error', error);
+          this.apiValidationErrors = error;
         },
         complete: () => {
           console.log('Completed');
@@ -69,9 +70,9 @@ export class CreateActivityComponent implements OnInit {
     this.newForm = this.fb.group({
       title: ['', [Validators.required, Validators.maxLength(50)]],
       description: [''],
-      category: ['', Validators.required],
+      category: [''],
       date: ['', Validators.required],
-      city: ['', Validators.required],
+      city: [''],
       venue: ['', Validators.required],
     });
   }

@@ -85,6 +85,12 @@ export class ActivityListComponent implements OnInit, AfterViewInit {
   loadData() {
     this.isLoadingResults = true;
     return this.activityService.list(this.defaultParams).pipe(
+      finalize(() => {
+        setTimeout(() => {
+          this.isLoadingResults = false;
+        }, 1000);
+        console.log('finalize');
+      }),
       catchError(() => of(null)),
       map((result) => {
         if (result === null) {

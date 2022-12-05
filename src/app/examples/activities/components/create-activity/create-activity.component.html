@@ -53,6 +53,14 @@
             ></app-text-input>
           </div>
         </div>
+        <ng-container *ngIf="apiValidationErrors.length > 0">
+          <mat-error
+            class="font-semibold"
+            *ngFor="let error of apiValidationErrors"
+          >
+            {{ error }}
+          </mat-error>
+        </ng-container>
       </mat-card-content>
       <mat-card-actions>
         <button

@@ -28,7 +28,7 @@ export class ActivityDetailsComponent implements OnInit {
     const routeParam = this.route.snapshot.paramMap.get('id');
     if (!routeParam) {
       // goBack to List
-      this.router.navigate(['../..'], { relativeTo: this.route });
+      this.router.navigate(['/examples/activities']);
     } else {
       this.routeParamId = routeParam;
       console.log('RouteParam', this.routeParamId);
@@ -37,17 +37,17 @@ export class ActivityDetailsComponent implements OnInit {
   }
 
   getActivity(id: string) {
-    this.activityService
-      .getById(id)
-      .pipe(retry(2))
-      .subscribe({
-        next: (response) => {
-          console.log('activity', response);
-          this.activity = response;
-        },
-        error: (error) => {},
-        complete: () => {},
-      });
+    this.activityService.getById(id).subscribe({
+      next: (response) => {
+        console.log('activity', response);
+        this.activity = response;
+      },
+      error: (error) => {
+        console.log(error);
+        this.router.navigate(['/examples/activities']);
+      },
+      complete: () => {},
+    });
   }
 
   openDialog(id: string) {
