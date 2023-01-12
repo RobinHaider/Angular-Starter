@@ -27,7 +27,8 @@ export class AuthGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    if (this.authService.loggedIn()) {
+    const user = this.authService.userValue;
+    if (user) {
       const roles = route.data['roles'] as Array<string>;
       if (roles) {
         const match = this.authService.roleMatch(roles);
@@ -35,16 +36,18 @@ export class AuthGuard implements CanActivate {
           return true;
         } else {
           this.toastService.error('You are not authorized to access this area');
-          // this.authService.logout();
+          // this.router.navigate(['/'], {
+          //   // queryParams: { returnUrl: state.url },
+          // });
           return false;
         }
       }
       return true;
     }
 
-    this.toastService.info('Please Log in..');
-    this.router.navigate(['auth/login'], {
-      queryParams: { returnUrl: state.url },
+    // this.toastService.info('Please Log in..');
+    this.router.navigate(['home'], {
+      // queryParams: { returnUrl: state.url },
     });
     return false;
   }

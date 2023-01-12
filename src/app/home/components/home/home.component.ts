@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     // tslint:disable-next-line: deprecation
     this.mobileQuery.addListener(this._mobileQueryListener);
-    this.currentUser$ = this.authService.currentUser$;
+    this.currentUser$ = this.authService.user$;
   }
 
   ngOnInit(): void {}

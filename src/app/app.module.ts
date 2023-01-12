@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -10,6 +10,8 @@ import { JwtInterceptor } from './core/interceptors/jwt/jwt.interceptor';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ErrorInterceptor } from './core/interceptors/error/error.interceptor';
 import { LoadingInterceptor } from './core/interceptors/loading/loading.interceptor';
+import { appInitializer } from './core/helpers/app.initializer';
+import { AuthService } from './auth/services/auth.service';
 
 interface NgxSpinnerConfig {
   type?: string;
@@ -29,6 +31,12 @@ interface NgxSpinnerConfig {
     }),
   ],
   providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: appInitializer,
+      multi: true,
+      deps: [AuthService],
+    },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     // { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

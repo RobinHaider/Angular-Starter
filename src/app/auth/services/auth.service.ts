@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { map, ReplaySubject } from 'rxjs';
+import { BehaviorSubject, map, Observable, ReplaySubject, take } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Login, RegisterDto } from '../models/login';
 import { User } from '../models/user';
@@ -12,40 +12,25 @@ import { User } from '../models/user';
 })
 export class AuthService {
   baseUrl = environment.apiUrl + 'account/';
-  private currentUserSource = new ReplaySubject<User | null>(1);
-  currentUser$ = this.currentUserSource.asObservable();
-  storageName = 'user';
-  userRoles: string[] = [];
+  private userSubject: BehaviorSubject<User | null>;
+  public user$: Observable<User | null>;
 
   jwtHelper = new JwtHelperService();
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) {
+    this.userSubject = new BehaviorSubject<User | null>(null);
+    this.user$ = this.userSubject.asObservable();
+  }
 
-  loadCurrentUser() {
-    const userData = localStorage.getItem(this.storageName);
-    if (userData == null) {
-      this.clearUser();
-      return;
-    }
-    const user: User = JSON.parse(userData);
-    if (!this.loggedIn()) {
-      this.clearUser();
-      return;
-    }
-    this.currentUserSource.next(user);
-    this.userRoles = user.roles;
+  public get userValue() {
+    return this.userSubject.value;
   }
 
   loggedIn() {
-    const userData = localStorage.getItem(this.storageName);
-    if (userData == null) {
+    if (this.userValue == null) {
       return false;
     }
-    const user: User = JSON.parse(userData);
-    if (user !== null) {
-      return !this.jwtHelper.isTokenExpired(user.token);
-    }
-    return false;
+    return !this.jwtHelper.isTokenExpired(this.userValue.token);
   }
 
   login(values: Login) {
@@ -53,55 +38,75 @@ export class AuthService {
       .post<User>(this.baseUrl + 'login', values, { withCredentials: true })
       .pipe(
         map((user: User) => {
-          if (user) {
-            localStorage.setItem(this.storageName, JSON.stringify(user));
-            this.currentUserSource.next(user);
-            this.userRoles = user.roles;
-          }
+          this.userSubject.next(user);
+          this.startRefreshTokenTimer();
+          return user;
         })
       );
+  }
+
+  logout() {
+    console.log('logout');
+    this.http
+      .post(this.baseUrl + 'logout', {}, { withCredentials: true })
+      .pipe(take(1))
+      .subscribe();
+    this.stopRefreshTokenTimer();
+    this.userSubject.next(null);
+    this.router.navigateByUrl('/auth/login');
   }
 
   register(values: RegisterDto) {
     return this.http.post(this.baseUrl + 'register', values);
   }
 
-  logout() {
-    this.clearUser();
-    this.router.navigateByUrl('/auth/login');
-  }
-
   refreshToken() {
+    // console.log('refresh time', new Date());
     return this.http
       .post<User>(this.baseUrl + 'refreshToken', {}, { withCredentials: true })
       .pipe(
         map((user: User) => {
-          if (user) {
-            localStorage.setItem(this.storageName, JSON.stringify(user));
-            this.currentUserSource.next(user);
-            this.userRoles = user.roles;
-          }
+          this.userSubject.next(user);
+          this.startRefreshTokenTimer();
+          return user;
         })
       );
   }
 
   //For Checking Roles
   roleMatch(allowedRoles: string[]): boolean {
-    let isMatch = false;
-    if (this.userRoles) {
+    let match = false;
+    if (this.userValue?.roles) {
       allowedRoles.forEach((element) => {
-        if (this.userRoles.includes(element)) {
-          isMatch = true;
-          return;
+        if (this.userValue?.roles.includes(element)) {
+          match = true;
         }
       });
     }
-    return isMatch;
+    return match;
   }
 
-  private clearUser() {
-    localStorage.removeItem(this.storageName);
-    this.currentUserSource.next(null);
-    this.userRoles = [];
+  clearUser() {}
+
+  // helper methods
+
+  private refreshTokenTimeout?: NodeJS.Timeout;
+
+  private startRefreshTokenTimer() {
+    // parse json object from base64 encoded jwt token
+    const jwtBase64 = this.userValue!.token!.split('.')[1];
+    const jwtToken = JSON.parse(atob(jwtBase64));
+
+    // set a timeout to refresh the token a minute before it expires
+    const expires = new Date(jwtToken.exp * 1000);
+    const timeout = expires.getTime() - Date.now() - 60 * 1000;
+    this.refreshTokenTimeout = setTimeout(
+      () => this.refreshToken().subscribe(),
+      timeout
+    );
+  }
+
+  private stopRefreshTokenTimer() {
+    clearTimeout(this.refreshTokenTimeout);
   }
 }

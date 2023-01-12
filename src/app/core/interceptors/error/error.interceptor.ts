@@ -40,7 +40,7 @@ export class ErrorInterceptor implements HttpInterceptor {
       //       : ev.body.errors[0].message;
       //   }
       // }),
-      retry(request.body ? 1 : 0),
+      // retry(request.body ? 1 : 0),
       catchError((exception: HttpErrorResponse) => {
         if (exception) {
           let errorMessage = '';
@@ -71,11 +71,18 @@ export class ErrorInterceptor implements HttpInterceptor {
               );
               break;
             case exception.status === 401:
-              this.authService.logout();
-              this.toastr.warning(
-                'Your session has expired, please login again',
-                'Session Expired'
-              );
+              // console.log(exception);
+
+              //  if (
+              //    status === 401 &&
+              //    headers['www-authenticate'] ===
+              //      'Bearer error="invalid_token", error_description="The token is expired"'
+              //  )
+              // this.authService.logout();
+              // this.toastr.warning(
+              //   'Your session has expired, please login again',
+              //   'Session Expired'
+              // );
               break;
             case exception.status === 403:
               this.toastr.warning(

@@ -10,7 +10,6 @@ export class AppComponent implements OnInit {
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.authService.loadCurrentUser();
     // this.authService.refreshToken().subscribe((res) => {
     //   console.log(res);
     // });

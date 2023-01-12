@@ -1,6 +1,7 @@
 export interface Login {
   email: string;
   password: string;
+  rememberMe: boolean;
 }
 
 export interface RegisterDto {

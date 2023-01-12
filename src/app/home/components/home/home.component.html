@@ -1,12 +1,12 @@
 <ng-container *ngIf="currentUser$ | async as user">
   <div class="navbar-container" [class.example-is-mobile]="mobileQuery.matches">
     <!-- Top navbar -->
-    <mat-toolbar class="navbar" color="primary">
+    <mat-toolbar class="navbar" color="warn">
       <button mat-icon-button (click)="snav.toggle()">
         <mat-icon>menu</mat-icon>
       </button>
 
-      <a [routerLink]="['/']" matTooltip="Home"> Angular Starter </a>
+      <a [routerLink]="['/']" matTooltip="Home"> Back Office </a>
 
       <!-- -->
 

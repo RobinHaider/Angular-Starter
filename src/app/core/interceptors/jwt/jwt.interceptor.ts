@@ -1,3 +1,4 @@
+import { AuthService } from 'src/app/auth/services/auth.service';
 import { Injectable } from '@angular/core';
 import {
   HttpRequest,
@@ -7,25 +8,28 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/auth/models/user';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
-  constructor() {}
+  constructor(private authService: AuthService) {}
 
   intercept(
     req: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    const userData = localStorage.getItem('user');
-    if (userData !== null) {
-      const user: User = JSON.parse(userData);
+    const user = this.authService.userValue;
+    const isLoggedIn = user?.token;
+    const isApiUrl = req.url.startsWith(environment.apiUrl);
+
+    if (isLoggedIn && isApiUrl) {
       req = req.clone({
-        setHeaders: {
-          Authorization: `Bearer ${user.token}`,
-        },
-        withCredentials: true,
+        setHeaders: { Authorization: `Bearer ${user.token}` },
       });
     }
+    req = req.clone({
+      withCredentials: true,
+    });
 
     return next.handle(req);
   }
